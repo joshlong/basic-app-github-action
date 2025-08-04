@@ -14,7 +14,7 @@ create_ip(){
 
 write_secrets(){
   export SECRETS=${APP_NAME}-secrets
-  SECRETS_FN=${SECRETS}
+  export SECRETS_FN=`pwd`/${SECRETS}
 
   # get each  of the keys passed to the plugin and use them to resolve 
   # the value and write them to a k8s secrets object
