@@ -18,6 +18,11 @@ inputs:
   gke-cluster: 
     description: 'the name of the GKE cluster to which to deploy'
     required: true
+  
+  port :
+    description: 'the port on which the service should run'
+    required: false
+    default: 8080
 
   gke-project: 
     description: 'the project of the GKE cluster to which to deploy'
@@ -80,7 +85,11 @@ runs:
         GKE_PROJECT: ${{ inputs.gke-project }}
         NS: ${{inputs.kubernetes-namespace}}
         ACTION_PATH: ${{ github.action_path }}
-        APP_NAME: ${{ inputs.service }}
         ROOT_DIR: ${{ github.action_path}}
+        PUBLIC: ${{ inputs.exposed }}
+        URL: ${{ inputs.url }}
+        SERVICE: ${{ inputs.service }}
+        CONTAINER: ${{ inputs.container }}
+        PORT: ${{ inputs.port }}
       run: |
         ${{ github.action_path }}/bin/deploy.sh

@@ -2,12 +2,22 @@
 import os
 
 if __name__ == '__main__':
-    app_name = os.environ.get('APP_NAME')
     container = os.environ.get('CONTAINER')
     service = os.environ.get('SERVICE')
     url = os.environ.get('URL', '')
     public = os.environ.get('PUBLIC', 'False')
-    manifest = '''
+    port = os.environ.get('PORT')
+
+
+    def empty(v: str) -> bool:
+        return v is None or v == ''
+
+
+    if empty(url):
+        if empty(port):
+            port = '8080'
+
+        manifest = '''
 #@data/values
 
 ---
@@ -15,5 +25,13 @@ service: %s
 container: %s
 url: %s
 port: 8080
+        '''
+    else:
+        manifest = '''
+#@data/values
+
+---
+service: %s
+container: %s
 	'''
     print(manifest % (service, container, url))

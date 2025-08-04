@@ -59,8 +59,9 @@ echo $ROOT_DIR
 ls -la $ROOT_DIR
 cd $ROOT_DIR 
 
-python3 $ROOT_DIR/bin/manifest_gen/main.py > test.yml
-cat test.yml
+APP_YML=../k8s/carvel/app.yml
+python3 $ROOT_DIR/bin/manifest_gen/main.py > ${APP_YML}/test.yml
+cat ${APP_YML}
 
 
 
