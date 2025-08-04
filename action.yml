@@ -76,7 +76,8 @@ runs:
         cluster_name: '${{ inputs.gke-cluster  }}'
         location: '${{ inputs.gke-zone }}'
 
-    - run: |
+    - shell: bash
+      run: |
         gcloud config set project  ${{ inputs.gke-project }}
         gcloud --quiet auth configure-docker
         gcloud auth configure-docker us-docker.pkg.dev --quiet
