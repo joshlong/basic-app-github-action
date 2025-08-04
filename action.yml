@@ -84,19 +84,11 @@ runs:
       shell: bash
       env:
         ENV_KEYS: ${{ inputs.kubernetes-environment }}
+        GKE_PROJECT: ${{inputs.gke-project}}
+        NS: ${{inputs.kubernetes-namespace}}
+        ACTION_PATH: ${{github.action_path }}
+        APP_NAME: ${{ inputs.service }}
+        ROOT_DIR: ${{github.action_path}}
       run: |
-        gcloud config set project  ${{ inputs.gke-project }}
-        gcloud --quiet auth configure-docker
-        gcloud auth configure-docker us-docker.pkg.dev --quiet
-        kubectl get ns/${{ inputs.kubernetes-namespace }} || kubectl create ns ${{ inputs.kubernetes-namespace }}
-        kubectl config set-context --current --namespace=${{ inputs.kubernetes-namespace }}
-        
-        kubectl get pods
-        
-        cd ${{ github.action_path }}
-        export ROOT_DIR=${{ github.action_path }}
-        export NAMESPACE_NAME=${{ inputs.kubernetes-namespace }}
-        export APP_NAME=${{ inputs.service }}
-        ls -la $GITHUB_WORKSPACE
-        ls -la ${{ github.action_path }}
+
         ${{ github.action_path }}/bin/deploy.sh

@@ -40,6 +40,22 @@ get_image(){
   kubectl get "$1" -o json  | jq -r  ".spec.template.spec.containers[0].image" || echo "no old version to compare against"
 }
 
+
+
+
+
+
+
+gcloud config set project $GKE_PROJECT
+gcloud --quiet auth configure-docker
+gcloud auth configure-docker us-docker.pkg.dev --quiet
+kubectl get ns/${NS} || kubectl create ns ${NS}
+kubectl config set-context --current --namespace=${NS}
+
+kubectl get pods
+
+
+
 write_secrets
 echo $ROOT_DIR
 cd $ROOT_DIR/k8s/carvel/
