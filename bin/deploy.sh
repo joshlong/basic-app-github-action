@@ -25,7 +25,7 @@ write_secrets(){
   
   for key in "${KEY_ARRAY[@]}"; do
     value=$(eval echo \$${key})
-    SECRET_VARS+="${key}=${value} "
+    SECRET_VARS+="${key}=${value}\n"
   done
   
   echo ${SECRET_VARS} >> ${SECRETS_FN}
