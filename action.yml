@@ -98,4 +98,4 @@ runs:
         export ROOT_DIR=$GITHUB_WORKSPACE
         export NAMESPACE_NAME=${{ inputs.kubernetes-namespace }}
         export APP_NAME=${{ inputs.service }}
-        ./bin/deploy.sh
+        ${GITHUB_WORKSPACE}/bin/deploy.sh
