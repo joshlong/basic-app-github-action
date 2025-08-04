@@ -83,6 +83,7 @@ runs:
         kubectl get pods
 
     - name: Set up Carvel Tools
+      shell: bash
       run: |
         curl -L https://carvel.dev/install.sh | bash
         export PATH="$PATH:/usr/local/bin"
