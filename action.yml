@@ -89,6 +89,7 @@ runs:
         ytt version
 
     - name: Deploy
+      shell: bash
       env:
         ENV_KEYS: ${{ inputs.kubernetes-environment }}
       run: |
