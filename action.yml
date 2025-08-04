@@ -92,9 +92,9 @@ runs:
         kubectl config set-context --current --namespace=${{ inputs.kubernetes-namespace }}
         
         kubectl get pods
-
-        cd $GITHUB_WORKSPACE
-        export ROOT_DIR=$GITHUB_WORKSPACE
+        
+        cd ${{ github.action_path }}
+        export ROOT_DIR=${{ github.action_path }}
         export NAMESPACE_NAME=${{ inputs.kubernetes-namespace }}
         export APP_NAME=${{ inputs.service }}
         ls -la $GITHUB_WORKSPACE
