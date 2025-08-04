@@ -14,7 +14,7 @@ create_ip(){
 
 write_secrets(){
   echo "going to create secrets in the $NS namespace."
-  export SECRETS=${${APP_NAME}-secrets}.env
+  export SECRETS=${APP_NAME}-secrets.env
   export SECRETS_FN=`pwd`/${SECRETS}
 
   # get each  of the keys passed to the plugin and use them to resolve 
