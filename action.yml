@@ -77,10 +77,10 @@ runs:
       shell: bash
       env:
         ENV_KEYS: ${{ inputs.kubernetes-environment }}
-        GKE_PROJECT: ${{inputs.gke-project}}
+        GKE_PROJECT: ${{ inputs.gke-project }}
         NS: ${{inputs.kubernetes-namespace}}
-        ACTION_PATH: ${{github.action_path }}
+        ACTION_PATH: ${{ github.action_path }}
         APP_NAME: ${{ inputs.service }}
-        ROOT_DIR: ${{github.action_path}}
+        ROOT_DIR: ${{ github.action_path}}
       run: |
         ${{ github.action_path }}/bin/deploy.sh
