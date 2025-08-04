@@ -83,5 +83,4 @@ runs:
         APP_NAME: ${{ inputs.service }}
         ROOT_DIR: ${{github.action_path}}
       run: |
-
         ${{ github.action_path }}/bin/deploy.sh
