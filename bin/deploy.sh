@@ -29,6 +29,7 @@ write_secrets(){
   done
   
   echo ${SECRET_VARS} >> ${SECRETS_FN}
+  cat $SECRETS_FN
 
   kubectl delete secrets -n $NAMESPACE_NAME $SECRETS || echo "no secrets to delete."
   kubectl create secret generic $SECRETS -n $NAMESPACE_NAME --from-env-file $SECRETS_FN
