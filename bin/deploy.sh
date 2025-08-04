@@ -13,7 +13,7 @@ create_ip(){
 }
 
 write_secrets(){
-  
+
   export SECRETS=${APP_NAME}-secrets
   export SECRETS_FN=`pwd`/${SECRETS}
 
@@ -41,17 +41,16 @@ get_image(){
   kubectl get "$1" -o json  | jq -r  ".spec.template.spec.containers[0].image" || echo "no old version to compare against"
 }
 
-
+echo "the namespace is $NS"
+echo "the action path is ${ROOT_DIR}"
 
 gcloud config set project $GKE_PROJECT
 gcloud --quiet auth configure-docker
 gcloud auth configure-docker us-docker.pkg.dev --quiet
-kubectl get ns/${NS} || kubectl create ns ${NS}
+kubectl get ns/${NS} || kubectl create namespace ${NS}
 kubectl config set-context --current --namespace=${NS}
 
 kubectl get pods
-
-
 
 write_secrets
 echo $ROOT_DIR
