@@ -57,7 +57,6 @@ runs:
       shell: bash
       run: |
         echo "Secrets: ${{ env.secrets }}"
-        # Use the Secrets object in your deployment process
 
     - name: "Setup PATH"
       shell: bash
@@ -85,11 +84,11 @@ runs:
         kubectl config set-context --current --namespace=${{ inputs.kubernetes-namespace }}
         kubectl get pods
 
-    # - name: Set up Carvel Tools
-    #   run: |
-    #     curl -L https://carvel.dev/install.sh | bash
-    #     export PATH="$PATH:/usr/local/bin"
-    #     ytt version
+    - name: Set up Carvel Tools
+      run: |
+        curl -L https://carvel.dev/install.sh | bash
+        export PATH="$PATH:/usr/local/bin"
+        ytt version
 
     # - name: Deploy
     #   run: |
