@@ -73,15 +73,6 @@ runs:
         cluster_name: '${{ inputs.gke-cluster  }}'
         location: '${{ inputs.gke-zone }}'
 
-    - shell: bash
-      run: |
-        gcloud config set project  ${{ inputs.gke-project }}
-        gcloud --quiet auth configure-docker
-        gcloud auth configure-docker us-docker.pkg.dev --quiet
-        kubectl get ns/${{ inputs.kubernetes-namespace }} || kubectl create ns ${{ inputs.kubernetes-namespace }}
-        kubectl config set-context --current --namespace=${{ inputs.kubernetes-namespace }}
-        kubectl get pods
-
     - name: Set up Carvel Tools
       shell: bash
       run: |
@@ -94,6 +85,14 @@ runs:
       env:
         ENV_KEYS: ${{ inputs.kubernetes-environment }}
       run: |
+        gcloud config set project  ${{ inputs.gke-project }}
+        gcloud --quiet auth configure-docker
+        gcloud auth configure-docker us-docker.pkg.dev --quiet
+        kubectl get ns/${{ inputs.kubernetes-namespace }} || kubectl create ns ${{ inputs.kubernetes-namespace }}
+        kubectl config set-context --current --namespace=${{ inputs.kubernetes-namespace }}
+        
+        kubectl get pods
+
         cd $GITHUB_WORKSPACE
         export ROOT_DIR=$GITHUB_WORKSPACE
         export NAMESPACE_NAME=${{ inputs.kubernetes-namespace }}
