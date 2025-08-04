@@ -41,7 +41,7 @@ get_image(){
 }
 
 write_secrets
-
+echo $ROOT_DIR
 cd $ROOT_DIR/k8s/carvel/
 
 python3 -c'print "hello"' 
