@@ -14,10 +14,10 @@ create_ip(){
 
 write_secrets(){
   
-  export SECRETS=${APP_NAME}-secrets.env
-  export SECRETS_FN=`pwd`/${SECRETS}
+  export SECRETS_NAME=${SERVICE}-secrets.env
+  export SECRETS_FN=`pwd`/${SECRETS_NAME}
   
-  echo "going to create ${SECRETS} secrets in the $NS namespace."
+  echo "going to create ${SECRETS_NAME} secrets in the $NS namespace."
 
   # get each  of the keys passed to the plugin and use them to resolve 
   # the value and write them to a k8s secrets object
@@ -35,8 +35,8 @@ write_secrets(){
   
   cat $SECRETS_FN
 
-  kubectl delete secrets -n $NS $SECRETS || echo "no secrets to delete."
-  kubectl create secret generic $SECRETS -n $NS --from-env-file $SECRETS_FN
+  kubectl delete secrets -n $NS $SECRETS_NAME || echo "no secrets to delete."
+  kubectl create secret generic $SECRETS_NAME -n $NS --from-env-file $SECRETS_FN
 
 }
 

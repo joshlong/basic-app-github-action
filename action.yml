@@ -91,5 +91,6 @@ runs:
         SERVICE: ${{ inputs.service }}
         CONTAINER: ${{ inputs.container }}
         PORT: ${{ inputs.port }}
+        
       run: |
         ${{ github.action_path }}/bin/deploy.sh
