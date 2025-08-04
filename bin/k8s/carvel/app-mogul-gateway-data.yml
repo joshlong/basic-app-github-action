@@ -1,0 +1,9 @@
+#@data/values
+
+---
+service: mogul-gateway
+container: us-docker.pkg.dev/joshlong/mogul-artifact-registry/mogul-gateway:latest
+url: studio.media-mogul.io
+port: 8080
+
+
