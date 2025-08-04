@@ -60,6 +60,7 @@ runs:
         # Use the Secrets object in your deployment process
 
     - name: "Setup PATH"
+      shell: bash
       run: |
         P="${GITHUB_WORKSPACE}/bin"
         mkdir -p $P
