@@ -58,7 +58,7 @@ write_secrets
 echo $ROOT_DIR
 ls -la $ROOT_DIR
 cd $ROOT_DIR/bin/k8s/carvel/
-python3 -c'print "hello"' 
+python3 -c'print("hello")' 
 
 # # MAIN APPS
 # # and there are a bunch of apps we needs to deploy and they all share a similar setup
