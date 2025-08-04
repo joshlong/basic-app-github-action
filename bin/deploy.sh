@@ -57,7 +57,7 @@ kubectl get pods
 write_secrets
 echo $ROOT_DIR
 ls -la $ROOT_DIR
-cd $ROOT_DIR/k8s/carvel/
+cd $ROOT_DIR/bin/k8s/carvel/
 python3 -c'print "hello"' 
 
 # # MAIN APPS
