@@ -55,12 +55,14 @@ kubectl config set-context --current --namespace=${NS}
 kubectl get pods
 
 write_secrets
-echo $ROOT_DIR
+echo "root dir is $ROOT_DIR "
 ls -la $ROOT_DIR
 cd $ROOT_DIR 
 
 APP_YML=${ROOT_DIR}/k8s/carvel/app.yml
-python3 $ROOT_DIR/bin/manifest_gen/main.py > ${APP_YML}
+ls -la `dirname $APP_YML`
+ls -la $ROOT_DIR/bin/manifest_gen/main.py
+$ROOT_DIR/bin/manifest_gen/main.py > ${APP_YML}
 cat ${APP_YML}
 ls -la `dirname $APP_YML`
 
