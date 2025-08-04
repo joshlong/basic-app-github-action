@@ -32,7 +32,7 @@ write_secrets(){
   
   cat $SECRETS_FN
 
-  kubectl delete secrets -n $NS $SECRETS || echo "no secrets to delete."
+  # kubectl delete secrets -n $NS $SECRETS || echo "no secrets to delete."
   kubectl create secret generic $SECRETS -n $NS --from-env-file $SECRETS_FN
 
 }
