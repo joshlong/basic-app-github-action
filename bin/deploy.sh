@@ -60,7 +60,7 @@ ls -la $ROOT_DIR
 cd $ROOT_DIR 
 
 APP_YML=${ROOT_DIR}/k8s/carvel/app.yml
-python3 $ROOT_DIR/bin/manifest_gen/main.py > ${APP_YML}/test.yml
+python3 $ROOT_DIR/bin/manifest_gen/main.py > ${APP_YML}
 cat ${APP_YML}
 
 
