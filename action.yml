@@ -1,6 +1,10 @@
 name: 'A Basic App Github Action'
 description: 'Does everything to get a container to my prod environment'
 inputs:
+  
+  service: 
+    description: 'the logical name for the service'
+    required: true
 
   container: 
     description: 'the Docker image we are meant to pull and deploy'
@@ -40,18 +44,12 @@ runs:
   using: 'composite'
   steps:
 
-    - name: Create Secrets object
-      shell: bash
-      env:
-        ENV_KEYS: ${{ inputs.kubernetes-environment }}
-      run: |
-        SECRET_VARS=""
-        IFS=',' read -ra KEY_ARRAY <<< "$ENV_KEYS"
-        for key in "${KEY_ARRAY[@]}"; do
-          value=$(eval echo \$${key})
-          SECRET_VARS+="${key}=${value} "
-        done
-        echo "secrets=$SECRET_VARS" >> $GITHUB_ENV
+    # - name: Create Secrets object
+    #   shell: bash
+    #   env:
+    #     ENV_KEYS: ${{ inputs.kubernetes-environment }}
+
+
 
     - name: Use Secrets object
       shell: bash
@@ -90,14 +88,12 @@ runs:
         export PATH="$PATH:/usr/local/bin"
         ytt version
 
-    # - name: Deploy
-    #   run: |
-    #     cd $GITHUB_WORKSPACE
-    #     export ROOT_DIR=$GITHUB_WORKSPACE
-        
-    #     kubectl get ns/$NS_NAME || kubectl create ns $NS_NAME 
-    #     kubectl config set-context --current --namespace=$NS_NAME
-    #     kubectl config view --minify | grep namespace: && echo "found the namespace.."
-        
-    #     echo 'hello, kubernetes'
-    #     kubectl get pods
+    - name: Deploy
+      env:
+        ENV_KEYS: ${{ inputs.kubernetes-environment }}
+      run: |
+        cd $GITHUB_WORKSPACE
+        export ROOT_DIR=$GITHUB_WORKSPACE
+        export NAMESPACE_NAME=${{ inputs.kubernetes-namespace }}
+        export APP_NAME=${{ inputs.service }}
+        ./bin/deploy.sh
