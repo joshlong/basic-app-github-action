@@ -2,6 +2,7 @@
 import os
 
 if __name__ == '__main__':
+    print ('invoking the main.py')
     container = os.environ.get('CONTAINER')
     service = os.environ.get('SERVICE')
     url = os.environ.get('URL', '')
