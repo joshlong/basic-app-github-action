@@ -13,9 +13,11 @@ create_ip(){
 }
 
 write_secrets(){
-  echo "going to create secrets in the $NS namespace."
+  
   export SECRETS=${APP_NAME}-secrets.env
   export SECRETS_FN=`pwd`/${SECRETS}
+  
+  echo "going to create ${SECRETS} secrets in the $NS namespace."
 
   # get each  of the keys passed to the plugin and use them to resolve 
   # the value and write them to a k8s secrets object
@@ -50,16 +52,12 @@ gcloud --quiet auth configure-docker
 gcloud auth configure-docker us-docker.pkg.dev --quiet
 kubectl get ns/${NS} || kubectl create namespace ${NS}
 kubectl config set-context --current --namespace=${NS}
-
 kubectl get pods
 
 write_secrets
 echo $ROOT_DIR
 cd $ROOT_DIR/k8s/carvel/
-
 python3 -c'print "hello"' 
-
-
 
 # # MAIN APPS
 # # and there are a bunch of apps we needs to deploy and they all share a similar setup
