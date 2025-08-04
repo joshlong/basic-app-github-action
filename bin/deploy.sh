@@ -59,7 +59,7 @@ echo $ROOT_DIR
 ls -la $ROOT_DIR
 cd $ROOT_DIR 
 
-python3 $ROOT_DIR/bin/generate_manifest.py > test.yml
+python3 $ROOT_DIR/bin/manifest_gen/main.py > test.yml
 cat test.yml
 
 
