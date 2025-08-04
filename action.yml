@@ -81,7 +81,7 @@ runs:
         gcloud config set project  ${{ inputs.gke-project }}
         gcloud --quiet auth configure-docker
         gcloud auth configure-docker us-docker.pkg.dev --quiet
-        kubectl get ns/$NS_NAME || kubectl create ns ${{ inputs.kubernetes-namespace }}
+        kubectl get ns/${{ inputs.kubernetes-namespace }} || kubectl create ns ${{ inputs.kubernetes-namespace }}
         kubectl config set-context --current --namespace=${{ inputs.kubernetes-namespace }}
         kubectl get pods
 
