@@ -25,10 +25,10 @@ write_secrets(){
   
   for key in "${KEY_ARRAY[@]}"; do
     value=$(eval echo \$${key})
-    SECRET_VARS+="${key}=${value}\n"
+    # SECRET_VARS+="${key}=${value}\n"
+    echo "${key}=${value}" >> $SECRETS_FN
   done
   
-  echo ${SECRET_VARS} >> ${SECRETS_FN}
   cat $SECRETS_FN
 
   kubectl delete secrets -n $NAMESPACE_NAME $SECRETS || echo "no secrets to delete."
