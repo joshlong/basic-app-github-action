@@ -58,7 +58,11 @@ write_secrets
 echo $ROOT_DIR
 ls -la $ROOT_DIR
 cd $ROOT_DIR 
-python3 $ROOT_DIR/bin/generate_manifest.py
+
+python3 $ROOT_DIR/bin/generate_manifest.py > test.yml
+cat test.yml
+
+
 
 # # MAIN APPS
 # # and there are a bunch of apps we needs to deploy and they all share a similar setup
@@ -91,4 +95,3 @@ python3 $ROOT_DIR/bin/generate_manifest.py
 # done
 
 
-cd "$ROOT_DIR"
