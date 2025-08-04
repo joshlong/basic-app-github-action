@@ -1,0 +1,72 @@
+name: 'A Basic App Github Action'
+description: 'Does everything to get a container to my prod environment'
+inputs:
+
+  container: 
+    description: 'the Docker image we are meant to pull and deploy'
+    required: true
+
+  exposed: 
+    description: 'whether or not to setup a static IP'
+    required: true
+    default: true
+
+  gke-cluster: 
+    description: 'the name of the GKE cluster to which to deploy'
+    required: true
+
+  gke-zone: 
+    description: 'the GKE zone to which to deploy'
+    required: true
+
+  gke-service-account-key:
+    description: 'the GKE service account with which to deploy the application'
+    required: true
+
+  kubernetes-namespace:
+    description: 'the Kubernetes namespace in which to deploy'
+    required: true
+    default: 'default'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: "Setup PATH"
+      run: |
+        P="${GITHUB_WORKSPACE}/bin"
+        mkdir -p $P
+        echo "${P}" >> $GITHUB_PATH
+
+    - uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ inputs.gke-service-account-key }}'
+
+    - id: 'get-credentials'
+      uses: 'google-github-actions/get-gke-credentials@v2'
+      with:
+        cluster_name: '${{ inputs.gke-cluster  }}'
+        location: '${{ inputs.gke-zone }}'
+
+    - run: |
+        gcloud config set project $GCLOUD_PROJECT 
+        gcloud --quiet auth configure-docker
+        gcloud auth configure-docker us-docker.pkg.dev --quiet
+        kubectl get pods
+
+    - name: Set up Carvel Tools
+      run: |
+        curl -L https://carvel.dev/install.sh | bash
+        export PATH="$PATH:/usr/local/bin"
+        ytt version
+
+    - name: Deploy
+      run: |
+        cd $GITHUB_WORKSPACE
+        export ROOT_DIR=$GITHUB_WORKSPACE
+        
+        kubectl get ns/$NS_NAME || kubectl create ns $NS_NAME 
+        kubectl config set-context --current --namespace=$NS_NAME
+        kubectl config view --minify | grep namespace: && echo "found the namespace.."
+        
+        echo 'hello, kubernetes'
+        kubectl get pods
