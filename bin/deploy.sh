@@ -57,8 +57,8 @@ kubectl get pods
 write_secrets
 echo $ROOT_DIR
 ls -la $ROOT_DIR
-cd $ROOT_DIR/bin/k8s/carvel/
-python3 -c'print("hello")' 
+cd $ROOT_DIR 
+python3 $ROOT_DIR/bin/generate_manifest.py
 
 # # MAIN APPS
 # # and there are a bunch of apps we needs to deploy and they all share a similar setup
