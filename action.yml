@@ -44,13 +44,6 @@ runs:
   using: 'composite'
   steps:
 
-    # - name: Create Secrets object
-    #   shell: bash
-    #   env:
-    #     ENV_KEYS: ${{ inputs.kubernetes-environment }}
-
-
-
     - name: Use Secrets object
       shell: bash
       run: |

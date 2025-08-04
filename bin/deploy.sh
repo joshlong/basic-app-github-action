@@ -13,6 +13,7 @@ create_ip(){
 }
 
 write_secrets(){
+  
   export SECRETS=${APP_NAME}-secrets
   export SECRETS_FN=`pwd`/${SECRETS}
 
@@ -31,18 +32,14 @@ write_secrets(){
   
   cat $SECRETS_FN
 
-  kubectl delete secrets -n $NAMESPACE_NAME $SECRETS || echo "no secrets to delete."
-  kubectl create secret generic $SECRETS -n $NAMESPACE_NAME --from-env-file $SECRETS_FN
+  kubectl delete secrets -n $NS $SECRETS || echo "no secrets to delete."
+  kubectl create secret generic $SECRETS -n $NS --from-env-file $SECRETS_FN
 
 }
 
 get_image(){
   kubectl get "$1" -o json  | jq -r  ".spec.template.spec.containers[0].image" || echo "no old version to compare against"
 }
-
-
-
-
 
 
 
