@@ -39,7 +39,7 @@ runs:
     - name: Create Secrets object
       shell: bash
       env:
-        ENV_KEYS: ${{ inputs.env_keys }}
+        ENV_KEYS: ${{ inputs.kubernetes-environment }}
       run: |
         SECRET_VARS=""
         IFS=',' read -ra KEY_ARRAY <<< "$ENV_KEYS"
