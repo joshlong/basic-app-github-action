@@ -14,8 +14,8 @@ create_ip(){
 
 write_secrets(){
   
-  export SECRETS_NAME=${SERVICE}-secrets.env
-  export SECRETS_FN=`pwd`/${SECRETS_NAME}
+  export SECRETS_NAME=${SERVICE}-secrets
+  export SECRETS_FN=`pwd`/${SECRETS_NAME}.env
   
   SECRET_VARS=""
   
