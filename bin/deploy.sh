@@ -9,6 +9,7 @@ create_ip(){
     echo "you didn't specify the name of the IP address to create "
   else
     gcloud compute addresses list --format json | jq '.[].name' -r | grep $ipn || gcloud compute addresses create $ipn --global
+    echo "working with the IP named ${ipn} "
   fi
 }
 
@@ -23,7 +24,6 @@ write_secrets(){
   
   for key in "${KEY_ARRAY[@]}"; do
     value=$(eval echo \$${key})
-    # SECRET_VARS+="${key}=${value}\n"
     echo "${key}=${value}" >> $SECRETS_FN
   done
 
@@ -49,33 +49,31 @@ cd $ROOT_DIR
 APP_YML=${ROOT_DIR}/bin/k8s/carvel/app-app-data.yml
 $ROOT_DIR/bin/manifest_gen/main.py > ${APP_YML}
 
+IP=${NS}-${SERVICE}-ip
+create_ip $IP
+Y=${ROOT_DIR}/bin/k8s/carvel/app-${SERVICE}-data.yml
+D=deployments/${f}-deployment
+OUT_YML=out.yml
+ytt -f $Y -f "$ROOT_DIR"/bin/k8s/carvel/data-schema.yml -f "$ROOT_DIR"/bin/k8s/carvel/deployment.yml |  kbld -f -  > ${OUT_YML}
 
-for f in app ; do
-  IP=${NS}-${f}-ip
-  Y=${ROOT_DIR}/bin/k8s/carvel/app-${f}-data.yml
-  D=deployments/${f}-deployment
-  OUT_YML=out.yml
-  ytt -f $Y -f "$ROOT_DIR"/bin/k8s/carvel/data-schema.yml -f "$ROOT_DIR"/bin/k8s/carvel/deployment.yml |  kbld -f -  > ${OUT_YML}
+cat ${OUT_YML} | kubectl apply  -n ${NS} -f -
 
-  cat ${OUT_YML} | kubectl apply  -n ${NS} -f -
+echo "--------------------------"
+echo "Final Kubernetes YAML:"
+echo "--------------------------"
+cat ${OUT_YML}
+echo "--------------------------"
 
-  echo "--------------------------"
-  echo "Final Kubernetes YAML:"
-  echo "--------------------------"
-  cat ${OUT_YML}
-  echo "--------------------------"
+# NEW_IMAGE=`get_image $D`
+# echo "comparing container images for the first container!"
+# echo $OLD_IMAGE
+# echo $NEW_IMAGE
+# if [ "$OLD_IMAGE" = "$NEW_IMAGE" ]; then
+  # echo "no need to restart $D"
+# else
+ # echo "restarting $D"
+ # kubectl rollout restart $D
+# fi
 
-  # NEW_IMAGE=`get_image $D`
-  # echo "comparing container images for the first container!"
-  # echo $OLD_IMAGE
-  # echo $NEW_IMAGE
-  # if [ "$OLD_IMAGE" = "$NEW_IMAGE" ]; then
-    # echo "no need to restart $D"
-  # else
-   # echo "restarting $D"
-   # kubectl rollout restart $D
-  # fi
-
-done
 
 
