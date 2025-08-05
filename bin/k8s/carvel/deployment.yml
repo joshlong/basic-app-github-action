@@ -63,7 +63,7 @@ spec:
             - containerPort:  #@ data.values.port
           envFrom:
             - secretRef:
-                name: mogul-secrets
+                name: #@ data.values.service  + '-secrets'
           env:
             - name: SERVER_PORT
               value:  #@ str(data.values.port)
