@@ -121,9 +121,7 @@ metadata:
 
     kubernetes.io/ingress.global-static-ip-name: #@  data.values.prefix + '-' + data.values.service +'-ip'
     networking.gke.io/managed-certificates: #@  data.values.service +'-certificate'
-
 spec:
-
   rules:
     - host: #@ data.values.url
       http:

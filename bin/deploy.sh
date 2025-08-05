@@ -59,7 +59,7 @@ echo "root dir is $ROOT_DIR "
 ls -la $ROOT_DIR
 cd $ROOT_DIR 
 
-APP_YML=${ROOT_DIR}/bin/k8s/carvel/app.yml
+APP_YML=${ROOT_DIR}/bin/k8s/carvel/app-app-data.yml
 ls -la `dirname $APP_YML`
 ls -la $ROOT_DIR/bin/manifest_gen/main.py
 $ROOT_DIR/bin/manifest_gen/main.py > ${APP_YML}
@@ -67,35 +67,36 @@ cat ${APP_YML}
 ls -la `dirname $APP_YML`
 
 
+export NAMESPACE_NAME=$NS
 
 # # MAIN APPS
 # # and there are a bunch of apps we needs to deploy and they all share a similar setup
-# for f in mogul-service mogul-gateway mogul-client ; do
+for f in app  ; do
   
-#   echo "------------------"
+  echo "------------------"
 
-#   IP=${NAMESPACE_NAME}-${f}-ip
-#   echo "creating IP called ${IP} "
-#   create_ip $IP
-#   echo "created IP called ${IP} "
-#   Y=app-${f}-data.yml
-#   D=deployments/${f}-deployment
-#   OLD_IMAGE=`get_image $D `
-#   OUT_YML=out.yml
-#   ytt -f $Y -f "$ROOT_DIR"/k8s/carvel/data-schema.yml -f "$ROOT_DIR"/k8s/carvel/deployment.yml |  kbld -f -  > ${OUT_YML}
-#   cat ${OUT_YML}
-#   cat ${OUT_YML} | kubectl apply  -n $NAMESPACE_NAME -f -
-#   NEW_IMAGE=`get_image $D`
-#   echo "comparing container images for the first container!"
-#   echo $OLD_IMAGE
-#   echo $NEW_IMAGE
-#   if [ "$OLD_IMAGE" = "$NEW_IMAGE" ]; then
-#     echo "no need to restart $D"
-#   else
-#    echo "restarting $D"
-#    kubectl rollout restart $D
-#   fi
+  IP=${NAMESPACE_NAME}-${f}-ip
+  echo "creating IP called ${IP} "
+  create_ip $IP
+  echo "created IP called ${IP} "
+  Y=app-${f}-data.yml
+  D=deployments/${f}-deployment
+  OLD_IMAGE=`get_image $D `
+  OUT_YML=out.yml
+  ytt -f $Y -f "$ROOT_DIR"/bin/k8s/carvel/data-schema.yml -f "$ROOT_DIR"/bin/k8s/carvel/deployment.yml |  kbld -f -  > ${OUT_YML}
+  cat ${OUT_YML}
+  cat ${OUT_YML} | kubectl apply  -n $NAMESPACE_NAME -f -
+  NEW_IMAGE=`get_image $D`
+  echo "comparing container images for the first container!"
+  echo $OLD_IMAGE
+  echo $NEW_IMAGE
+  if [ "$OLD_IMAGE" = "$NEW_IMAGE" ]; then
+    echo "no need to restart $D"
+  else
+   echo "restarting $D"
+   kubectl rollout restart $D
+  fi
 
-# done
+done
 
 
