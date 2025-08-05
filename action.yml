@@ -2,6 +2,10 @@ name: 'A Basic App Github Action'
 description: 'Does everything to get a container to my prod environment'
 inputs:
   
+  url: 
+    description: 'the URL of the web application' 
+    required: false
+
   service: 
     description: 'the logical name for the service'
     required: true
