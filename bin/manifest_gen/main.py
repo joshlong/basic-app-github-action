@@ -6,7 +6,7 @@ service = os.environ.get('SERVICE')
 url = os.environ.get('URL', '')
 public = (os.environ.get('PUBLIC', 'False')).lower() == 'true'
 port = os.environ.get('PORT')
-
+ns=os.environ.get('NS','default')
 
 def empty(v: str) -> bool:
     return v is None or v == ''
@@ -16,10 +16,12 @@ manifest = '''
 #@data/values
 
 ---
+prefix: %s
+namespace: %s
 service: %s
 container: %s
 '''
-args = [service, container]
+args = [ns, service, container]
 
 if public and not empty(url):
     if empty(port):
@@ -28,11 +30,13 @@ if public and not empty(url):
 #@data/values
 
 ---
+prefix: %s
+namespace: %s
 service: %s
 container: %s
 url: %s
 port: %s
         '''
-    args = [service, container, url, port]
+    args = [ns,service, container, url, port]
 
 print(manifest.strip() % tuple(args))
