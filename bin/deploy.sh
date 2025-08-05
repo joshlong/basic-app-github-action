@@ -79,7 +79,7 @@ for f in app  ; do
   echo "creating IP called ${IP} "
   create_ip $IP
   echo "created IP called ${IP} "
-  Y=app-${f}-data.yml
+  Y=${ROOT_DIR}/bin/k8s/carvel/app-${f}-data.yml
   D=deployments/${f}-deployment
   OLD_IMAGE=`get_image $D `
   OUT_YML=out.yml
