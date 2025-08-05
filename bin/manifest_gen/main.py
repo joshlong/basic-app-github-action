@@ -17,7 +17,6 @@ manifest = '''
 
 ---
 prefix: %s
-namespace: %s
 service: %s
 container: %s
 '''
@@ -31,7 +30,6 @@ if public and not empty(url):
 
 ---
 prefix: %s
-namespace: %s
 service: %s
 container: %s
 url: %s
