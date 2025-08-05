@@ -46,15 +46,15 @@ kubectl get pods
 write_secrets
 cd $ROOT_DIR 
 
-APP_YML=${ROOT_DIR}/bin/k8s/carvel/app-app-data.yml
+APP_YML=${ROOT_DIR}/bin/k8s/carvel/app-${SERVICE}-data.yml
 $ROOT_DIR/bin/manifest_gen/main.py > ${APP_YML}
 
 IP=${NS}-${SERVICE}-ip
 create_ip $IP
-Y=${ROOT_DIR}/bin/k8s/carvel/app-${SERVICE}-data.yml
-D=deployments/${f}-deployment
+
+D=deployments/${SERVICE}-deployment
 OUT_YML=out.yml
-ytt -f $Y -f "$ROOT_DIR"/bin/k8s/carvel/data-schema.yml -f "$ROOT_DIR"/bin/k8s/carvel/deployment.yml |  kbld -f -  > ${OUT_YML}
+ytt -f $APP_YML -f "$ROOT_DIR"/bin/k8s/carvel/data-schema.yml -f "$ROOT_DIR"/bin/k8s/carvel/deployment.yml |  kbld -f -  > ${OUT_YML}
 
 cat ${OUT_YML} | kubectl apply  -n ${NS} -f -
 
@@ -63,17 +63,4 @@ echo "Final Kubernetes YAML:"
 echo "--------------------------"
 cat ${OUT_YML}
 echo "--------------------------"
-
-# NEW_IMAGE=`get_image $D`
-# echo "comparing container images for the first container!"
-# echo $OLD_IMAGE
-# echo $NEW_IMAGE
-# if [ "$OLD_IMAGE" = "$NEW_IMAGE" ]; then
-  # echo "no need to restart $D"
-# else
- # echo "restarting $D"
- # kubectl rollout restart $D
-# fi
-
-
 
